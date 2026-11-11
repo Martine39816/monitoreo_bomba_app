@@ -2,6 +2,7 @@ package com.example.monitoreobombaapp.data
 
 import com.google.gson.annotations.SerializedName
 
+
 // ---- Login ----
 
 data class LoginRequest(
@@ -29,10 +30,8 @@ data class LogoutResponse(
 )
 
 // ---- Bombas ----
-
-data class BombasResponse(
-    val bombas: List<Bomba>
-)
+// Laravel devuelve directamente un arreglo de bombas.
+// Ya no necesitamos la clase BombasResponse.
 
 data class Bomba(
     val id: Int,
@@ -40,14 +39,17 @@ data class Bomba(
     val nombre: String,
     val encendido: Boolean,
     val funcionando: Boolean,
+
     @SerializedName("modo_operacion")
     val modoOperacion: Boolean,
+
     val estado: String,
+
     @SerializedName("centro_salud")
     val centroSalud: String?,
-    val sensores: List<Sensor>
-)
 
+    val sensores: List<Sensor> = emptyList()
+)
 data class Sensor(
     val id: Int,
     val tipo: String,
@@ -62,4 +64,48 @@ data class Sensor(
     val ultimaLectura: String?,
     @SerializedName("fecha_hora")
     val fechaHora: String?
+)
+
+// ---- Alertas ----
+
+data class AlertasResponse(
+    val alertas: List<Alerta>
+)
+
+data class AlertaResponse(
+    val alerta: Alerta
+)
+
+data class Alerta(
+    val id: Int,
+    val tipo: String,
+    val descripcion: String?,
+    @SerializedName("valor_detectado")
+    val valorDetectado: String?,
+    @SerializedName("valor_permitido")
+    val valorPermitido: String?,
+    @SerializedName("fecha_hora")
+    val fechaHora: String?,
+    val atendida: Boolean,
+    @SerializedName("fecha_atencion")
+    val fechaAtencion: String?,
+    @SerializedName("atendida_por")
+    val atendidaPor: String?,
+    val bomba: BombaResumen?,
+    val sensor: String?
+)
+
+data class BombaResumen(
+    val id: Int,
+    val codigo: String,
+    val nombre: String
+)
+
+
+data class ControlBombaResponse(
+    val mensaje: String,
+    val encendido: Boolean,
+    @SerializedName("bloqueo_remoto")
+    val bloqueoRemoto: Boolean,
+    val funcionando: Boolean
 )

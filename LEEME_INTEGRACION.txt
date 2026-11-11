@@ -1,0 +1,42 @@
+MONITOREOBOMBAAPP - PROYECTO ANDROID
+====================================
+
+Este paquete contiene el proyecto fuente Android Studio basado en MonitoreoBombaApp_v2.zip. Se incorporó el emblema compartido como recurso logo_app.png, utilizado por las pantallas que ya referencian ese recurso.
+
+ABRIR EL PROYECTO
+1. Extraer el ZIP completo.
+2. Abrir Android Studio > Open.
+3. Seleccionar la carpeta MonitoreoBombaApp (la que contiene settings.gradle.kts).
+4. Esperar la sincronización de Gradle y aceptar la instalación de SDK/dependencias que solicite Android Studio.
+5. Revisar app/src/main/java/com/example/monitoreobombaapp/data/RetrofitClient.kt y configurar la IP local del equipo que ejecuta Laravel.
+6. Conectar el teléfono y la computadora a la misma red Wi-Fi. El servidor Laravel debe estar activo y accesible desde el teléfono.
+
+IMPORTANTE SOBRE LA RED
+- No usar localhost ni 127.0.0.1 en el teléfono: esas direcciones apuntan al propio teléfono.
+- Para probar en el emulador Android, normalmente el host de la computadora es 10.0.2.2; para un teléfono físico, usar la IPv4 de la computadora.
+- Permitir el puerto del servidor Laravel en el firewall de Windows si el teléfono no puede conectarse.
+
+NOVEDADES DE LA VERSION 3.0
+- Servidor configurable desde la app (engranaje en la lista de bombas o "Configurar servidor" en el login): ya no hace falta recompilar si cambia la IP de la PC.
+- Lista de bombas: busqueda por nombre/codigo/centro, filtro por centro de salud (chips) y actualizacion automatica cada 20 s.
+- Detalle de bomba: tarjeta de Salud (sensores fuera de rango + alertas pendientes), consumo Hoy/7 dias/30 dias con nuevo estilo, alertas pendientes de esa bomba con boton "Solucionar", e historial filtrado por bomba. Actualizacion automatica cada 15 s.
+- Se unifico el estilo de la tarjeta de consumo con el resto de la app y se elimino la dependencia duplicada de swiperefreshlayout.
+- Iconos en sensores (temperatura, vibracion, nivel, corriente), botones encender/apagar, titulos de tarjetas y centro de salud.
+- Se conservaron logo, iconos, splash, colores y todo el codigo previo.
+- La "Salud" es un indicador orientativo calculado en la app; el consumo lo sigue calculando Laravel.
+
+FUNCIONES QUE YA EXISTEN EN ESTA BASE
+- Inicio de sesión, sesión/token y navegación.
+- Listado de bombas y estado presentado por el backend.
+- Pantalla de detalle y lecturas de sensores.
+- Consulta y resolución de alertas.
+- Integración del emblema en el recurso de logo de la app.
+
+CONSUMO Y CONTROL
+La versión del proyecto debe utilizar los endpoints móviles existentes en Laravel. La disponibilidad real de consumo y control depende de que el servidor tenga publicadas las rutas correspondientes, el usuario esté autenticado y el backend autorice esa acción. No se debe calcular el consumo de forma independiente en Android si Laravel ya lo calcula.
+
+COMPILAR APK
+En Android Studio: Build > Build Bundle(s) / APK(s) > Build APK(s). El APK de depuración suele quedar en app/build/outputs/apk/debug/app-debug.apk.
+
+NOTA DE VERIFICACIÓN
+Este archivo es el proyecto fuente; no se afirma que exista un APK ya compilado ni que las funciones se hayan probado contra el servidor real. La compilación requiere que Android Studio pueda resolver las dependencias de Gradle y que la dirección del backend sea correcta.

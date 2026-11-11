@@ -2,6 +2,7 @@ package com.example.monitoreobombaapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
@@ -25,7 +26,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        configurarPantalla()
         setContentView(R.layout.activity_main)
+        findViewById<View>(R.id.loginRoot).aplicarInsets(arriba = true, abajo = true)
 
         sessionManager = SessionManager(this)
 
@@ -41,14 +44,24 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+        findViewById<View>(R.id.btnServidor).setOnClickListener { mostrarDialogoServidor() }
+
         btnLogin.setOnClickListener {
             intentarLogin()
+        }
+        etPassword.setOnEditorActionListener { _, accion, _ ->
+            if (accion == android.view.inputmethod.EditorInfo.IME_ACTION_DONE) {
+                intentarLogin()
+                true
+            } else false
         }
     }
 
     private fun intentarLogin() {
         val correo = etCorreo.text.toString().trim()
         val password = etPassword.text.toString()
+
+        tvError.visibility = View.GONE
 
         if (correo.isEmpty() || password.isEmpty()) {
             mostrarError("Completa correo y contraseña.")
@@ -71,7 +84,7 @@ class MainActivity : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 // Errores de red: servidor apagado, sin conexión, timeout, etc.
-                mostrarError("No se pudo conectar al servidor: ${e.message}")
+                mostrarError("No se pudo conectar a ${RetrofitClient.urlActual()}\n${e.message}\nToca \"Configurar servidor\" si la IP cambió.")
             } finally {
                 mostrarCargando(false)
             }
@@ -84,12 +97,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun mostrarCargando(cargando: Boolean) {
-        progressBar.visibility = if (cargando) android.view.View.VISIBLE else android.view.View.GONE
+        progressBar.visibility = if (cargando) View.VISIBLE else View.GONE
         btnLogin.isEnabled = !cargando
     }
 
     private fun mostrarError(mensaje: String) {
         tvError.text = mensaje
-        tvError.visibility = android.view.View.VISIBLE
+        tvError.visibility = View.VISIBLE
     }
 }

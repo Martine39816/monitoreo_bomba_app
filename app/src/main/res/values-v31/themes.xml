@@ -1,0 +1,5 @@
+<resources>
+    <style name="Theme.MonitoreoBombaApp" parent="Base.Theme.MonitoreoBombaApp">
+        <item name="android:windowSplashScreenBackground">@color/navy</item>
+    </style>
+</resources>

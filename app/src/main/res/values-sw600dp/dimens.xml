@@ -1,0 +1,5 @@
+<resources>
+    <dimen name="ancho_max_formulario">520dp</dimen>
+    <dimen name="padding_pantalla">24dp</dimen>
+    <dimen name="tam_logo">160dp</dimen>
+</resources>
